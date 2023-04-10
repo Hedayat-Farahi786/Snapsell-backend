@@ -10,14 +10,19 @@ const ProductSchema = new Schema({
         type: String,
         required: true
     },
+    info: {
+        type: String
+    },
     price: {
         type: Number,
         required: true
     },
+    product_image: {
+        type: String,
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        required: true
     }
 })
 

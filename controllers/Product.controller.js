@@ -25,7 +25,17 @@ module.exports = {
       if (existingProduct) {
         throw createError(400, "Product already created!");
       } else {
-        const product = new Product(req.body);
+        const { name, info, price, product_image, category } = req.body;
+
+        const item = new Product({
+          name,
+          info,
+          price,
+          product_image: req.file ? req.file.path : null,
+          category,
+        });
+    
+        const product = new Product(item);
         const result = await product.save();
         res.send(result);
       }

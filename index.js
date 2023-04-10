@@ -2,6 +2,7 @@ const express = require("express");
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const cors = require('cors');
 dotenv.config();
 const mongoose = require("mongoose");
 
@@ -11,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors());
 // Initialize Database
 require("./initDB")();
 
