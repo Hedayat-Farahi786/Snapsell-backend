@@ -21,7 +21,10 @@ router.post("/", async (req, res, next) => {
         throw createError(401, "User not found");
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    console.log(user.password);
+    console.log(currentPassword);
+
+    bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {
       next(createError(401, "Current password is incorrect"));
