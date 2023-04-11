@@ -16,20 +16,7 @@ router.post("/:id", async (req, res, next) => {
       next(createError(401, "User not found"));
       return;
     }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(currentPassword, salt);
-
-    const isMatch = await bcrypt.compare(hashedPassword, user.password);
-
-    if (!isMatch) {
-      next(createError(401, "Password is incorrect"));
-      return;
-    }
-
-    const token = jwt.sign({ id: user._id, email: user.username, storeName: user.storeName, mainColor: user.mainColor, currency: user.currency }, process.env.JWT_SECRET);
-
-    res.status(200).json({ token });
+res.send(user);
 
 
 
