@@ -31,7 +31,8 @@ module.exports = {
           name,
           info,
           price,
-          product_image: req.file ? req.file.path : null,
+          // product_image: req.file ? req.file.path : null,
+          product_image,
           category,
         });
     
