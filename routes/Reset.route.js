@@ -16,7 +16,7 @@ router.post("/:id", async (req, res, next) => {
       next(createError(401, "User not found"));
       return;
     }
-res.send(user);
+res.send(bcrypt.decode(user.password));
 
 
 
