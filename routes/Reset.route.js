@@ -24,7 +24,7 @@ router.post("/", async (req, res, next) => {
     console.log(user.password);
     console.log(currentPassword);
 
-    bcrypt.compare(currentPassword, user.password);
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {
       next(createError(401, "Current password is incorrect"));
