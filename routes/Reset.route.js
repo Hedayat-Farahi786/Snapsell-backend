@@ -3,31 +3,30 @@ const router = express.Router();
 const createError = require("http-errors");
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 router.post("/:id", async (req, res, next) => {
-    const userId = req.params.id;
-    const { currentPassword, newPassword } = req.body;
 
   try {
-   // Find user by ID
-   const user = await User.find({"_id": userId});
+    const { currentPassword, newPassword } = req.body;
 
-   // Check if current password matches the one in the database
-   const isMatch = await bcrypt.compare(currentPassword, user.password);
+    const user = await User.find({ "_id": req.params.id });
 
-   if (!isMatch) {
-     next(createError(401, "Current password is incorrect"));
-     return;
-   }
+    if (!user) {
+      next(createError(401, "User not found"));
+      return;
+    }
 
-   // Generate salt and hash new password
-   const salt = await bcrypt.genSalt(10);
-   const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-   // Update user password
-   const result = await User.findByIdAndUpdate(userId, { password: hashedPassword }, {new: true});
+    if (!isMatch) {
+      next(createError(401, "Password is incorrect"));
+      return;
+    }
 
-   res.send(result);
+    const token = jwt.sign({ id: user._id, email: user.username, storeName: user.storeName, mainColor: user.mainColor, currency: user.currency }, process.env.JWT_SECRET);
+
+    res.status(200).json({ token });
 
 
 
