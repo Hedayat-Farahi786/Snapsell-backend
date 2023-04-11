@@ -16,6 +16,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  currency: {
+    type: String,
+  },
   mainColor: {
     type: String,
   },

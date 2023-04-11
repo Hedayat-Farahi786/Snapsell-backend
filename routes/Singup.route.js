@@ -26,7 +26,8 @@ router.post("/", async (req, res, next) => {
       username,
       password,
       storeName,
-      mainColor,
+      currency: 'usd',
+      mainColor: '#E06F2B',
       // logo: req.file ? req.file.path : null,
       logo,
     });
