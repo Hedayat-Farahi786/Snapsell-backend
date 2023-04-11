@@ -16,6 +16,11 @@ router.post("/", async (req, res, next) => {
 
     const user = await User.find({"_id": id});
 
+    
+    if (!user) {
+        throw createError(401, "User not found");
+    }
+
     const isMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {
@@ -23,9 +28,6 @@ router.post("/", async (req, res, next) => {
       return;
     }
 
-    if (!user) {
-        throw createError(401, "User not found");
-    }
 
     const newUser = await User.findByIdAndUpdate(id, updates, options);
 
