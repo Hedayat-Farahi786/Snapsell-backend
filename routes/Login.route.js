@@ -23,7 +23,7 @@ router.post("/", async (req, res, next) => {
       return;
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id, email: user.username, storeName: user.storeName, mainColor: user.mainColor }, process.env.JWT_SECRET);
 
     res.status(200).json({ token });
   } catch (err) {
