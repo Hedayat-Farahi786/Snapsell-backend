@@ -16,7 +16,8 @@ router.post("/", async (req, res, next) => {
    const isMatch = await bcrypt.compare(currentPassword, user.password);
 
    if (!isMatch) {
-     return res.status(400).json({ msg: 'Current password is incorrect' });
+     next(createError(401, "Current password is incorrect"));
+     return;
    }
 
    // Generate salt and hash new password
@@ -24,9 +25,9 @@ router.post("/", async (req, res, next) => {
    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
    // Update user password
-   await User.findByIdAndUpdate(userId, { password: hashedPassword });
+   const result = await User.findByIdAndUpdate(userId, { password: hashedPassword }, {new: true});
 
-   return res.status(200).json({ msg: 'Password updated successfully' });
+   res.send(result);
 
 
 
