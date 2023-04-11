@@ -20,9 +20,7 @@ router.post("/:id", async (req, res, next) => {
         isMatch = false;
 
         bcrypt.compare(currentPassword, user.password, function (err, result) {
-            if (result) {
-                isMatch = true;
-            }
+            isMatch = true;
         });
 
         if (!isMatch) {
@@ -31,7 +29,7 @@ router.post("/:id", async (req, res, next) => {
         }
 
         const result = await User.findByIdAndUpdate(req.params.id, { password: newPassword });
-        
+
         res.send(result);
 
 
