@@ -10,7 +10,7 @@ router.post("/", async (req, res, next) => {
 
   try {
    // Find user by ID
-   const user = await User.findById(userId);
+   const user = await User.find({"_id": userId});
 
    // Check if current password matches the one in the database
    const isMatch = await bcrypt.compare(currentPassword, user.password);
