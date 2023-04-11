@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
 const User = require("../models/User.model");
+const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res, next) => {
   try {
@@ -15,8 +16,15 @@ router.post("/", async (req, res, next) => {
 
     const user = await User.find({"_id": id});
 
-    if (!user || user.password !== currentPassword) {
-        throw createError(401, "Current password does not match");
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      next(createError(401, "Current password is incorrect"));
+      return;
+    }
+
+    if (!user) {
+        throw createError(401, "User not found");
     }
 
     const newUser = await User.findByIdAndUpdate(id, updates, options);
