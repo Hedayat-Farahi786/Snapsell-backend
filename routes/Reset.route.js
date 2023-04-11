@@ -5,36 +5,28 @@ const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res, next) => {
-  try {
+    const userId = req.params.id;
     const { currentPassword, newPassword } = req.body;
 
-    const id = req.params.id;
-    const updates = {
-        password: newPassword
-    };
+  try {
+   // Find user by ID
+   const user = await User.findById(userId);
 
+   // Check if current password matches the one in the database
+   const isMatch = await bcrypt.compare(currentPassword, user.password);
 
-    const user = await User.find({"_id": id});
+   if (!isMatch) {
+     return res.status(400).json({ msg: 'Current password is incorrect' });
+   }
 
-    
-    if (!user) {
-        throw createError(401, "User not found");
-    }
+   // Generate salt and hash new password
+   const salt = await bcrypt.genSalt(10);
+   const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    console.log(user.password);
-    console.log(currentPassword);
+   // Update user password
+   await User.findByIdAndUpdate(userId, { password: hashedPassword });
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-
-    if (!isMatch) {
-      next(createError(401, "Current password is incorrect"));
-      return;
-    }
-
-
-    const newUser = await User.findByIdAndUpdate(id, updates, options);
-
-    res.send(newUser);
+   return res.status(200).json({ msg: 'Password updated successfully' });
 
 
 
