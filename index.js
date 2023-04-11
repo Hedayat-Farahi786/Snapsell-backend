@@ -22,6 +22,9 @@ app.use("/signup", SignupRoute);
 const LoginRoute = require("./routes/Login.route");
 app.use("/login", LoginRoute);
 
+const ResetRoute = require("./routes/Reset.route");
+app.use("/reset", ResetRoute);
+
 
 const UserRoute = require("./routes/User.route");
 app.use("/user", UserRoute);
