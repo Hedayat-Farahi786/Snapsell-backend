@@ -4,7 +4,7 @@ const createError = require("http-errors");
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 
-router.post("/", async (req, res, next) => {
+router.post("/:id", async (req, res, next) => {
     const userId = req.params.id;
     const { currentPassword, newPassword } = req.body;
 
