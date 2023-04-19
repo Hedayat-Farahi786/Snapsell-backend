@@ -26,6 +26,15 @@ const ResetRoute = require("./routes/Reset.route");
 app.use("/reset", ResetRoute);
 
 
+const OrderRoute = require("./routes/Order.route");
+app.use("/order", OrderRoute);
+
+
+const CustomerRoute = require("./routes/Customer.route");
+app.use("/customer", CustomerRoute);
+
+
+
 const UserRoute = require("./routes/User.route");
 app.use("/user", UserRoute);
 
